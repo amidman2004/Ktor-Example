@@ -13,7 +13,7 @@ object Users: Table(),UserDao {
     val fatherName = varchar("fatherName",16).nullable() // отчество
 
     val login = varchar("login",16).uniqueIndex() // логин
-    val password = varchar("password",16) // пароль
+    val password = varchar("password",64) // пароль
 
     override val primaryKey: PrimaryKey = PrimaryKey(id)
 

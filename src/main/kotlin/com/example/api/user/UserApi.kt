@@ -1,5 +1,6 @@
 package com.example.api.user
 
+import com.example.api.utils.ApiResponse
 import com.example.database.dto.UserDTO
 
 interface UserApi {
@@ -14,6 +15,6 @@ interface UserApi {
 
     suspend fun updateUser(id: Int, userDTO: UserDTO): UserDTO?
 
-    suspend fun authUser(login:String,password:String):Int?
+    suspend fun authUser(login:String,password:String):ApiResponse<Int>
 }
 

@@ -34,13 +34,13 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
     //MySQL
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.0.5")
     implementation("mysql:mysql-connector-java:8.0.29")
 
     //Exposed
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
 
     // Koin
     implementation("io.insert-koin:koin-ktor:$koin_version")
@@ -48,5 +48,13 @@ dependencies {
     //Ktor auth JWT
     implementation("io.ktor:ktor-server-auth:$ktor_version")
     implementation("io.ktor:ktor-server-auth-jwt:$ktor_version")
+
+    //Password Encryption
+    implementation("at.favre.lib:bcrypt:0.9.0")
+
+    //Database Migration
+    implementation("org.flywaydb:flyway-core:7.7.1")
+    implementation("com.zaxxer:HikariCP:5.0.1")
+
 
 }

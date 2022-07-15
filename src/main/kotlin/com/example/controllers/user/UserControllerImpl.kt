@@ -4,10 +4,7 @@ import com.example.api.user.UserApi
 import com.example.auth.TokenProvider
 import com.example.controllers.model.UserCredentials
 import com.example.database.dto.UserDTO
-import com.example.utils.ResponseResult
-import com.example.utils.handleNullable
-import com.example.utils.handleNullableId
-import com.example.utils.handleResponseException
+import com.example.utils.*
 import io.ktor.http.*
 
 class UserControllerImpl(
@@ -77,10 +74,7 @@ class UserControllerImpl(
 
     override suspend fun authenticate(userCredentials: UserCredentials): ResponseResult<String> {
         return try {
-            val userId = userApi.authUser(userCredentials.login,userCredentials.password).handleNullable(
-                "Wrong Credentials",
-                HttpStatusCode.BadRequest
-            )
+            val userId = userApi.authUser(userCredentials.login,userCredentials.password).handleApiResponse()
             val token  = tokenProvider.createToken(userId)
             ResponseResult.Success(
                 token,

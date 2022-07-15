@@ -1,7 +1,11 @@
 package com.example.api.user
 
+import com.example.api.utils.ApiResponse
+import com.example.api.utils.security.decrypt
+import com.example.api.utils.security.verify
 import com.example.database.dto.UserDTO
 import com.example.database.users.UserDao
+import io.ktor.http.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class UserApiImpl(
@@ -13,7 +17,8 @@ class UserApiImpl(
         val user = userDao.getUserByLogin(userDTO.login)
         if (user != null)
             return@newSuspendedTransaction null
-        return@newSuspendedTransaction userDao.insert(userDTO = userDTO)
+        val decryptPassword = userDTO.password.decrypt()
+        return@newSuspendedTransaction userDao.insert(userDTO = userDTO.copy(password = decryptPassword))
     }
 
     override suspend fun deleteUser(id: Int) = newSuspendedTransaction {
@@ -26,12 +31,14 @@ class UserApiImpl(
         return@newSuspendedTransaction userDao.update(id = id, userDTO = userDTO).copy(id = id)
     }
 
-    override suspend fun authUser(login: String, password: String): Int? = newSuspendedTransaction {
-        val user = userDao.getUserByLogin(login = login) ?: return@newSuspendedTransaction null
-        return@newSuspendedTransaction if (user.password == password)
-            user.id
+    override suspend fun authUser(login: String, password: String): ApiResponse<Int> = newSuspendedTransaction {
+        val user = userDao.getUserByLogin(login = login)
+            ?:
+                return@newSuspendedTransaction ApiResponse.Error("User with that login doesn't exist", HttpStatusCode.BadRequest)
+        return@newSuspendedTransaction if (user.password.verify(password))
+            ApiResponse.Success(user.id!!)
         else
-            null
+            ApiResponse.Error("Check your password and repeat", HttpStatusCode.BadRequest)
     }
 
     override suspend fun findById(id: Int): UserDTO? = newSuspendedTransaction {
@@ -44,3 +51,4 @@ class UserApiImpl(
 
 
 }
+
