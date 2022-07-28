@@ -6,4 +6,5 @@ fun Application.installPlugins(){
     configureKtorDI()
     configureSerialization()
     configureAuthentication()
+    configureStatusPages()
 }

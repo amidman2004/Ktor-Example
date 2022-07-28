@@ -42,6 +42,9 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
 
+    //StatusPages
+    implementation("io.ktor:ktor-server-status-pages:$ktor_version")
+
     // Koin
     implementation("io.insert-koin:koin-ktor:$koin_version")
 

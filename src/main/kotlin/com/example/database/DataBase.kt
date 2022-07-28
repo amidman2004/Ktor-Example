@@ -1,5 +1,6 @@
 package com.example.database
 
+import com.example.auth.refresh_token.RefreshTokens
 import com.example.database.users.Users
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -32,7 +33,7 @@ class DataBase {
         )
 
         transaction(database) {
-            SchemaUtils.createMissingTablesAndColumns(Users)
+            SchemaUtils.createMissingTablesAndColumns(Users,RefreshTokens)
         }
 
     }

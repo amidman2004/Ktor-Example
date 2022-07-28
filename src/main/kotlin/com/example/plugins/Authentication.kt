@@ -20,13 +20,15 @@ fun Application.configureAuthentication(){
     val config:AuthConfig by inject()
 
     install(Authentication){
+
         jwt {
             realm = config.myRealm
-            verifier(JWT
+            val verifier = JWT
                 .require(Algorithm.HMAC256(config.secret))
                 .withAudience(config.audience)
                 .withIssuer(config.issuer)
-                .build())
+                .build()
+            verifier(verifier)
             validate {jwtCredential ->
                 if (jwtCredential.payload.getClaim("id") != null)
                     JWTPrincipal(jwtCredential.payload)

@@ -13,8 +13,14 @@ fun Application.configureKtorDI(){
     install(Koin){
         modules(
             apiModule,
+        )
+        modules(
             controllerModule,
+        )
+        modules(
             daoModule,
+        )
+        modules(
             authModule
         )
     }
